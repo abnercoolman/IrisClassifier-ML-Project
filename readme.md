@@ -1,14 +1,14 @@
 # Classificador de Flores com Modelos de IA
 
-Esta aplicação é um exemplo interativo de classificação de flores usando múltiplos algoritmos de aprendizagem de máquina aplicados ao dataset Iris. A aplicação é construída com Python e Flask, e permite comparar o desempenho de diferentes modelos como KNN, Árvore de Decisão, Random Forest e SVM.
+Esta aplicação é um exemplo interativo de classificação de flores usando múltiplos algoritmos de aprendizagem de máquina aplicados ao dataset Iris. A aplicação é construída com Python e Flask, e permite comparar o desempenho de diferentes modelos como KNN, Árvore de Decisão, K-Means e Rede Neural Artificial (RNA).
 
 ## Recursos Principais
 
 - **Múltiplos Algoritmos de Classificação**:
   - K-Nearest Neighbors (KNN)
   - Árvore de Decisão
-  - Random Forest
-  - Support Vector Machine (SVM)
+  - K-Means
+  - Rede Neural Artificial (RNA)
 
 - **Visualizações Avançadas**:
   - Matriz de confusão para avaliação de desempenho
@@ -84,7 +84,7 @@ Classificador-Flores-IA/
 
 ## Uso da Aplicação
 
-1. **Selecionar o Modelo**: Escolha entre KNN, Árvore de Decisão, Random Forest ou SVM.
+1. **Selecionar o Modelo**: Escolha entre KNN, Árvore de Decisão, K-Means ou RNA.
 2. **Treinar o Modelo**: Clique em "Treinar Modelo" para iniciar o treinamento com o algoritmo selecionado.
 3. **Testar o Modelo**: Clique em "Testar Modelo" para avaliar o desempenho e visualizar as métricas e gráficos.
 4. **Comparar Modelos**: Clique em "Comparar Modelos" para ver uma tabela comparativa entre os diferentes algoritmos.

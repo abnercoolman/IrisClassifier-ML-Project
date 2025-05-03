@@ -8,12 +8,15 @@
     :root {
       --primary-color: #4e54c8;
       --secondary-color: #8f94fb;
-      --background-color: #f5f5f5;
-      --card-bg: #ffffff;
-      --text-color: #333;
+      --background-color: #1e1e2e;
+      --card-bg: #2a2a3a;
+      --text-color: #e0e0e0;
       --success-color: #4CAF50;
       --warning-color: #ff9800;
       --info-color: #03A9F4;
+      --card-hover-bg: #32323f;
+      --input-bg: #252535;
+      --border-color: #3f3f5f;
     }
     
     body {
@@ -31,11 +34,11 @@
     }
     
     .header {
-      background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       color: white;
       padding: 20px 0;
       text-align: center;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       margin-bottom: 30px;
     }
     
@@ -48,6 +51,7 @@
     
     .logo-container img {
       height: 80px;
+      filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
     }
     
     h1, h2, h3 {
@@ -59,19 +63,22 @@
       color: white;
       margin: 15px 0;
       font-size: 2.2em;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
     
     .card {
-      background: var(--card-bg);
+      background: linear-gradient(145deg, var(--card-bg), #303045);
       border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
       padding: 20px;
       margin-bottom: 30px;
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid var(--border-color);
     }
     
     .card:hover {
       transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
     }
     
     .card-title {
@@ -85,7 +92,7 @@
     
     .card-title i {
       margin-right: 10px;
-      color: var(--primary-color);
+      color: var(--secondary-color);
     }
     
     .models-container {
@@ -98,25 +105,28 @@
     .model-button {
       display: flex;
       align-items: center;
-      background-color: var(--card-bg);
+      background: linear-gradient(145deg, #32323e, #2a2a38);
       border: 2px solid var(--primary-color);
       border-radius: 50px;
       padding: 10px 20px;
       cursor: pointer;
       font-size: 16px;
       font-weight: 500;
-      color: var(--primary-color);
+      color: var(--text-color);
       transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
     
     .model-button.active {
-      background-color: var(--primary-color);
+      background: linear-gradient(145deg, var(--primary-color), var(--secondary-color));
       color: white;
+      box-shadow: 0 4px 12px rgba(78, 84, 200, 0.4);
     }
     
     .model-button:hover {
-      background-color: var(--primary-color);
+      background: linear-gradient(145deg, var(--primary-color), var(--secondary-color));
       color: white;
+      border-color: var(--secondary-color);
     }
     
     .model-button i {
@@ -132,7 +142,7 @@
     }
     
     button {
-      background-color: var(--primary-color);
+      background: linear-gradient(145deg, var(--primary-color), var(--secondary-color));
       color: white;
       border: none;
       border-radius: 50px;
@@ -144,16 +154,17 @@
       align-items: center;
       justify-content: center;
       transition: all 0.3s ease;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 12px rgba(78, 84, 200, 0.4);
     }
     
     button:hover {
-      background-color: var(--secondary-color);
+      background: linear-gradient(145deg, var(--secondary-color), var(--primary-color));
       transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(78, 84, 200, 0.6);
     }
     
     button:disabled {
-      background-color: #cccccc;
+      background: linear-gradient(145deg, #555, #444);
       cursor: not-allowed;
       opacity: 0.7;
     }
@@ -178,37 +189,42 @@
     input[type="number"] {
       width: 100%;
       padding: 12px 15px;
-      border: 1px solid #ddd;
+      border: 1px solid var(--border-color);
       border-radius: 8px;
       font-size: 16px;
-      transition: border-color 0.3s;
+      transition: all 0.3s;
+      background-color: var(--input-bg);
+      color: var(--text-color);
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
     }
     
     input[type="number"]:focus {
-      border-color: var(--primary-color);
+      border-color: var(--secondary-color);
       outline: none;
+      box-shadow: 0 0 0 2px rgba(143, 148, 251, 0.3);
     }
     
     input[type="number"] + label {
       position: absolute;
       left: 15px;
       top: -10px;
-      background-color: white;
+      background-color: var(--card-bg);
       padding: 0 5px;
       font-size: 14px;
-      color: var(--primary-color);
+      color: var(--secondary-color);
     }
     
     #resultadoPredict {
       margin-top: 20px;
       padding: 15px;
-      background-color: #e8f5e9;
+      background: linear-gradient(145deg, #1b3a1f, #2a5830);
       border-left: 4px solid var(--success-color);
       border-radius: 4px;
       font-size: 18px;
       font-weight: 500;
-      color: var(--success-color);
+      color: #a0f0a8;
       display: none;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
     
     .metrics-grid {
@@ -219,17 +235,18 @@
     }
     
     .metrics-card {
-      background: var(--card-bg);
+      background: linear-gradient(145deg, #2a2a3a, #32323f);
       border-radius: 8px;
       padding: 15px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      border: 1px solid var(--border-color);
     }
     
     .metrics-title {
       font-size: 18px;
       font-weight: 600;
       margin-bottom: 15px;
-      color: var(--primary-color);
+      color: var(--secondary-color);
       display: flex;
       align-items: center;
     }
@@ -247,12 +264,13 @@
     
     .metrics-value span:last-child {
       font-weight: 600;
+      color: #a0e0ff;
     }
     
     .metrics-divider {
       margin: 15px 0;
       border: none;
-      border-top: 1px solid #eee;
+      border-top: 1px solid var(--border-color);
     }
     
     .graphs-container {
@@ -263,18 +281,19 @@
     }
     
     .graph-card {
-      background: var(--card-bg);
+      background: linear-gradient(145deg, #2a2a3a, #32323f);
       border-radius: 10px;
       padding: 20px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
       text-align: center;
+      border: 1px solid var(--border-color);
     }
     
     .graph-title {
       font-size: 18px;
       font-weight: 600;
       margin-bottom: 15px;
-      color: var(--primary-color);
+      color: var(--secondary-color);
     }
     
     .graph-image {
@@ -282,6 +301,7 @@
       height: auto;
       border-radius: 8px;
       transition: transform 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
     
     .graph-image:hover {
@@ -302,8 +322,9 @@
       height: 50px;
       border: 5px solid rgba(78, 84, 200, 0.1);
       border-radius: 50%;
-      border-top: 5px solid var(--primary-color);
+      border-top: 5px solid var(--secondary-color);
       animation: spin 1s linear infinite;
+      box-shadow: 0 0 15px rgba(143, 148, 251, 0.3);
     }
     
     @keyframes spin {
@@ -320,30 +341,31 @@
       width: 100%;
       border-collapse: collapse;
       margin-top: 20px;
-      background-color: white;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      background-color: var(--card-bg);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
       border-radius: 8px;
       overflow: hidden;
+      border: 1px solid var(--border-color);
     }
     
     .comparison-table th, .comparison-table td {
       padding: 12px 15px;
       text-align: left;
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid var(--border-color);
     }
     
     .comparison-table th {
-      background-color: var(--primary-color);
+      background: linear-gradient(145deg, var(--primary-color), var(--secondary-color));
       color: white;
       font-weight: 500;
     }
     
     .comparison-table tr:nth-child(even) {
-      background-color: #f5f5f5;
+      background-color: #2f2f3f;
     }
     
     .comparison-table tr:hover {
-      background-color: #f0f0f0;
+      background-color: #353545;
     }
     
     .badge {
@@ -353,30 +375,32 @@
       font-size: 12px;
       font-weight: 600;
       color: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
     
     .badge-primary {
-      background-color: var(--primary-color);
+      background: linear-gradient(145deg, var(--primary-color), var(--secondary-color));
     }
     
     .badge-success {
-      background-color: var(--success-color);
+      background: linear-gradient(145deg, #3a9c40, #4CAF50);
     }
     
     .badge-warning {
-      background-color: var(--warning-color);
+      background: linear-gradient(145deg, #e08e00, #ff9800);
     }
     
     .badge-info {
-      background-color: var(--info-color);
+      background: linear-gradient(145deg, #0286c2, #03A9F4);
     }
     
     footer {
-      background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       color: white;
       text-align: center;
       padding: 20px 0;
       margin-top: 40px;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.2);
     }
     
     @media (max-width: 768px) {
@@ -420,13 +444,13 @@
           <i class="fas fa-tree"></i>
           <span>Árvore de Decisão</span>
         </div>
-        <div class="model-button" data-model="random_forest">
-          <i class="fas fa-trees"></i>
-          <span>Random Forest</span>
+        <div class="model-button" data-model="k_means">
+          <i class="fas fa-bullseye"></i>
+          <span>K-Means</span>
         </div>
-        <div class="model-button" data-model="svm">
-          <i class="fas fa-vector-square"></i>
-          <span>SVM</span>
+        <div class="model-button" data-model="rna">
+          <i class="fas fa-brain"></i>
+          <span>RNA</span>
         </div>
       </div>
       <div class="button-container">
@@ -708,7 +732,7 @@
       // Simulação de comparação - na realidade, verificaria se já temos dados suficientes
       if (Object.keys(modelComparisons).length < 2) {
         // Adiciona dados fictícios para modelos ainda não testados
-        const modelTypes = ['knn', 'decision_tree', 'random_forest', 'svm'];
+        const modelTypes = ['knn', 'decision_tree', 'k_means', 'rna'];
         
         modelTypes.forEach(model => {
           if (!modelComparisons[model]) {
@@ -726,8 +750,8 @@
       const modelCharacteristics = {
         'knn': 'Dados não-lineares, balanceados',
         'decision_tree': 'Dados categóricos, fácil interpretação',
-        'random_forest': 'Alta precisão, dados complexos',
-        'svm': 'Espaços de alta dimensão, margens claras'
+        'k_means': 'Agrupamento não-supervisionado',
+        'rna': 'Problemas complexos, alta capacidade'
       };
       
       // Preenche a tabela de comparação
@@ -735,8 +759,8 @@
       const modelDisplayNames = {
         'knn': 'KNN',
         'decision_tree': 'Árvore de Decisão',
-        'random_forest': 'Random Forest',
-        'svm': 'SVM'
+        'k_means': 'K-Means',
+        'rna': 'RNA'
       };
       
       Object.keys(modelComparisons).forEach(model => {

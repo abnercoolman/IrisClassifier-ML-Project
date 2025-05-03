@@ -10,8 +10,8 @@ from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.svm import SVC
+from sklearn.cluster import KMeans
+from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix
 
 app = Flask(__name__)
@@ -44,10 +44,28 @@ def train():
         model = KNeighborsClassifier(n_neighbors=3)
     elif model_name == 'decision_tree':
         model = DecisionTreeClassifier(random_state=42)
-    elif model_name == 'random_forest':
-        model = RandomForestClassifier(n_estimators=100, random_state=42)
-    elif model_name == 'svm':
-        model = SVC(kernel='rbf', C=1, gamma='scale', random_state=42)
+    elif model_name == 'k_means':
+        # K-Means para agrupamento (não é supervisionado, mas adaptamos para classificação)
+        model = KMeans(n_clusters=3, random_state=42)
+        model.fit(X_train)
+        # Mapear clusters para as classes do Iris
+        cluster_to_class = {}
+        for cluster in range(3):
+            # Encontrar a classe mais frequente em cada cluster
+            mask = model.labels_ == cluster
+            if np.sum(mask) > 0:
+                most_common = np.argmax(np.bincount(y_train[mask]))
+                cluster_to_class[cluster] = most_common
+        
+        # Monkey patching para poder usar o modelo como um classificador
+        original_predict = model.predict
+        def new_predict(X):
+            clusters = original_predict(X)
+            return np.array([cluster_to_class.get(c, 0) for c in clusters])
+        model.predict = new_predict
+        return jsonify({"message": f"Treinamento concluído com o modelo {model_name.upper()}"})
+    elif model_name == 'rna':
+        model = MLPClassifier(hidden_layer_sizes=(10, 5), max_iter=1000, random_state=42)
     else:
         model = KNeighborsClassifier(n_neighbors=3)  # Padrão para caso de erro
         
@@ -146,14 +164,31 @@ def test():
         model2 = KNeighborsClassifier(n_neighbors=3)
     elif model_name == 'decision_tree':
         model2 = DecisionTreeClassifier(random_state=42)
-    elif model_name == 'random_forest':
-        model2 = RandomForestClassifier(n_estimators=100, random_state=42)
-    elif model_name == 'svm':
-        model2 = SVC(kernel='rbf', C=1, gamma='scale', random_state=42)
+    elif model_name == 'k_means':
+        model2 = KMeans(n_clusters=3, random_state=42)
+        model2.fit(X_train_2)
+        # Mapear clusters para as classes do Iris
+        cluster_to_class = {}
+        for cluster in range(3):
+            # Encontrar a classe mais frequente em cada cluster
+            mask = model2.labels_ == cluster
+            if np.sum(mask) > 0:
+                most_common = np.argmax(np.bincount(y_train[mask]))
+                cluster_to_class[cluster] = most_common
+        
+        # Monkey patching para poder usar o modelo como um classificador
+        original_predict = model2.predict
+        def new_predict(X):
+            clusters = original_predict(X)
+            return np.array([cluster_to_class.get(c, 0) for c in clusters])
+        model2.predict = new_predict
+    elif model_name == 'rna':
+        model2 = MLPClassifier(hidden_layer_sizes=(10, 5), max_iter=1000, random_state=42)
     else:
         model2 = KNeighborsClassifier(n_neighbors=3)
         
-    model2.fit(X_train_2, y_train)
+    if model_name != 'k_means':
+        model2.fit(X_train_2, y_train)
     
     x_min, x_max = X_train_2[:, 0].min() - 1, X_train_2[:, 0].max() + 1
     y_min, y_max = X_train_2[:, 1].min() - 1, X_train_2[:, 1].max() + 1
@@ -180,7 +215,7 @@ def test():
 
     # --- Gráfico de importância de atributos (para árvore de decisão e random forest) ---
     feature_importance_img = None
-    if model_name in ['decision_tree', 'random_forest']:
+    if model_name in ['decision_tree']:
         plt.figure(figsize=(8, 6))
         features = ['Comprimento Sépala', 'Largura Sépala', 'Comprimento Pétala', 'Largura Pétala']
         importances = model.feature_importances_
