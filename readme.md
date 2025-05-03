@@ -21,6 +21,34 @@ Esta aplicação é um exemplo interativo de classificação de flores usando m�
   - Layout responsivo adaptável a diferentes dispositivos
   - Exibição intuitiva de métricas e resultados
 
+## Modelos de Machine Learning
+
+A aplicação utiliza vários algoritmos de classificação para o dataset Iris:
+
+### K-Nearest Neighbors (KNN)
+Um algoritmo que classifica um ponto com base na classe da maioria dos seus k vizinhos mais próximos no espaço de características.
+
+### Árvore de Decisão
+Um modelo que cria uma estrutura semelhante a uma árvore onde cada nó interno representa uma decisão baseada em um atributo, cada ramo representa um resultado dessa decisão, e cada folha representa uma classe.
+
+### K-Means
+Um algoritmo de agrupamento (clustering) não supervisionado que foi adaptado para tarefas de classificação através de um mapeamento de clusters para classes.
+
+### Rede Neural Artificial (RNA)
+Um modelo inspirado no cérebro humano que consiste em camadas de neurônios artificiais interconectados, capaz de aprender padrões complexos nos dados.
+
+## Prints do Sistema
+
+| Versão Web | Versão Mobile (Responsiva) |
+| --- | --- |
+| ![Versão Web do Sistema](/static/prints-sistema/print-web.png) | ![Versão Mobile do Sistema](/static/prints-sistema/print-mobile.png) |
+
+## Exemplos de Flores Iris
+
+| Iris Setosa | Iris Versicolor | Iris Virginica |
+| --- | --- | --- |
+| ![Iris Setosa](/static/images/iris-setosa-example.png) | ![Iris Versicolor](/static/images/iris-versicolor-example.png) | ![Iris Virginica](/static/images/iris-virginica-example.png) |
+
 ## Pré-requisitos
 
 - Python 3.x instalado
@@ -76,6 +104,9 @@ A estrutura básica do projeto é a seguinte:
 Classificador-Flores-IA/
 ├── templates/
 │   └── front.html       # Interface do usuário (Front-end)
+├── static/
+│   ├── images/          # Imagens das flores Iris
+│   └── prints-sistema/  # Capturas de tela da aplicação
 ├── venv/                # Ambiente virtual (gerado)
 ├── back.py              # Servidor e lógica de ML (Back-end)
 ├── requirements.txt     # Lista de dependências do projeto
