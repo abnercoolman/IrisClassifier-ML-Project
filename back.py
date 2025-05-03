@@ -9,12 +9,16 @@ import base64
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, precision_score, recall_score, confusion_matrix
 
 app = Flask(__name__)
 
 model = None
 X_train, X_test, y_train, y_test = None, None, None, None
+model_name = "knn"  # Modelo padrão
 
 @app.route('/')
 def home():
@@ -22,7 +26,11 @@ def home():
 
 @app.route('/train', methods=['POST'])
 def train():
-    global model, X_train, X_test, y_train, y_test
+    global model, X_train, X_test, y_train, y_test, model_name
+    # Obter o nome do modelo selecionado
+    data = request.json
+    model_name = data.get('model_type', 'knn')
+    
     # Carregar o dataset Iris
     iris = load_iris()
     X = iris.data
@@ -31,15 +39,25 @@ def train():
     # Dividir em treino e teste (70% treino, 30% teste)
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
-    # Criar e treinar o classificador KNN (usando os 4 atributos)
-    model = KNeighborsClassifier(n_neighbors=3)
+    # Criar e treinar o classificador selecionado
+    if model_name == 'knn':
+        model = KNeighborsClassifier(n_neighbors=3)
+    elif model_name == 'decision_tree':
+        model = DecisionTreeClassifier(random_state=42)
+    elif model_name == 'random_forest':
+        model = RandomForestClassifier(n_estimators=100, random_state=42)
+    elif model_name == 'svm':
+        model = SVC(kernel='rbf', C=1, gamma='scale', random_state=42)
+    else:
+        model = KNeighborsClassifier(n_neighbors=3)  # Padrão para caso de erro
+        
     model.fit(X_train, y_train)
 
-    return jsonify({"message": "Treinamento concluído"})
+    return jsonify({"message": f"Treinamento concluído com o modelo {model_name.upper()}"})
 
 @app.route('/test', methods=['GET'])
 def test():
-    global model, X_test, y_test, X_train, y_train
+    global model, X_test, y_test, X_train, y_train, model_name
     if model is None:
         return jsonify({"error": "Modelo não treinado"}), 400
 
@@ -102,7 +120,7 @@ def test():
     # --- Gerar a matriz de confusão (teste) para visualização ---
     plt.figure()
     plt.imshow(cm_test, interpolation='nearest', cmap=plt.cm.Blues)
-    plt.title('Matriz de Confusão (Teste)')
+    plt.title(f'Matriz de Confusão (Teste) - {model_name.upper()}')
     plt.colorbar()
     tick_marks = np.arange(len(np.unique(y_test)))
     classes = load_iris().target_names
@@ -122,7 +140,19 @@ def test():
     iris = load_iris()
     X_train_2 = X_train[:, 2:4]
     X_test_2 = X_test[:, 2:4]
-    model2 = KNeighborsClassifier(n_neighbors=3)
+    
+    # Treinamento de um novo modelo com apenas os atributos 2 e 3
+    if model_name == 'knn':
+        model2 = KNeighborsClassifier(n_neighbors=3)
+    elif model_name == 'decision_tree':
+        model2 = DecisionTreeClassifier(random_state=42)
+    elif model_name == 'random_forest':
+        model2 = RandomForestClassifier(n_estimators=100, random_state=42)
+    elif model_name == 'svm':
+        model2 = SVC(kernel='rbf', C=1, gamma='scale', random_state=42)
+    else:
+        model2 = KNeighborsClassifier(n_neighbors=3)
+        
     model2.fit(X_train_2, y_train)
     
     x_min, x_max = X_train_2[:, 0].min() - 1, X_train_2[:, 0].max() + 1
@@ -139,7 +169,7 @@ def test():
         plt.scatter(X_test_2[idx, 0], X_test_2[idx, 1], edgecolors='k', label=target_name)
     plt.xlabel('Comprimento da Pétala (cm)')
     plt.ylabel('Largura da Pétala (cm)')
-    plt.title('Superfície de Decisão (Teste)')
+    plt.title(f'Superfície de Decisão (Teste) - {model_name.upper()}')
     plt.legend()
     
     buf_ds = io.BytesIO()
@@ -147,21 +177,47 @@ def test():
     buf_ds.seek(0)
     plt.close()
     ds_img = base64.b64encode(buf_ds.getvalue()).decode('utf-8')
+
+    # --- Gráfico de importância de atributos (para árvore de decisão e random forest) ---
+    feature_importance_img = None
+    if model_name in ['decision_tree', 'random_forest']:
+        plt.figure(figsize=(8, 6))
+        features = ['Comprimento Sépala', 'Largura Sépala', 'Comprimento Pétala', 'Largura Pétala']
+        importances = model.feature_importances_
+        indices = np.argsort(importances)[::-1]
+        plt.title(f'Importância dos Atributos - {model_name.upper()}')
+        plt.bar(range(X_train.shape[1]), importances[indices], align='center')
+        plt.xticks(range(X_train.shape[1]), [features[i] for i in indices], rotation=45)
+        plt.xlim([-1, X_train.shape[1]])
+        plt.tight_layout()
+        
+        buf_fi = io.BytesIO()
+        plt.savefig(buf_fi, format='png')
+        buf_fi.seek(0)
+        plt.close()
+        feature_importance_img = base64.b64encode(buf_fi.getvalue()).decode('utf-8')
     
     # Retorna todos os resultados
-    return jsonify({
+    response = {
+        "model_name": model_name,
         "test_metrics": metrics_test,
         "manual_test_metrics": manual_metrics_test,
         "train_metrics": metrics_train,
         "manual_train_metrics": manual_metrics_train,
         "confusion_matrix": cm_img,
         "decision_surface": ds_img
-    })
+    }
+    
+    # Adiciona o gráfico de importância de atributos se aplicável
+    if feature_importance_img:
+        response["feature_importance"] = feature_importance_img
+    
+    return jsonify(response)
 
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    global model, X_train, y_train
+    global model, X_train, y_train, model_name
     if model is None:
         return jsonify({"error": "Modelo não treinado"}), 400
     data = request.json
@@ -176,8 +232,8 @@ def predict():
     # Calcula a acurácia do modelo no conjunto de treino
     acc_train = model.score(X_train, y_train)
     # Retorna o resultado com a acurácia formatada
-    return jsonify({"predicao": f"{result} (ACC: {round(acc_train*100, 0)}%)"})
+    return jsonify({"predicao": f"{result} (ACC: {round(acc_train*100, 0)}%) - Modelo: {model_name.upper()}"})
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8000, host='127.0.0.1')

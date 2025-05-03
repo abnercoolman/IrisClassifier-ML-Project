@@ -1,6 +1,25 @@
-# Classificador de Flores com KNN
+# Classificador de Flores com Modelos de IA
 
-Esta aplicação é um exemplo simples de um classificador de flores usando o algoritmo KNN aplicado ao dataset Iris. A aplicação é construída com Python e Flask, e exibe tanto a predição para novos valores quanto as métricas de desempenho (acurácia, precisão e recall) para os conjuntos de treinamento e teste. Além disso, o front-end apresenta gráficos da matriz de confusão e da superfície de decisão, e a interface conta com uma logo da UFCA centralizada no topo.
+Esta aplicação é um exemplo interativo de classificação de flores usando múltiplos algoritmos de aprendizagem de máquina aplicados ao dataset Iris. A aplicação é construída com Python e Flask, e permite comparar o desempenho de diferentes modelos como KNN, Árvore de Decisão, Random Forest e SVM.
+
+## Recursos Principais
+
+- **Múltiplos Algoritmos de Classificação**:
+  - K-Nearest Neighbors (KNN)
+  - Árvore de Decisão
+  - Random Forest
+  - Support Vector Machine (SVM)
+
+- **Visualizações Avançadas**:
+  - Matriz de confusão para avaliação de desempenho
+  - Superfície de decisão para visualizar as fronteiras de classificação
+  - Gráfico de importância de atributos (para árvores de decisão e random forest)
+  - Comparação direta entre os diferentes modelos
+
+- **Interface Moderna e Responsiva**:
+  - Design com cards interativos
+  - Layout responsivo adaptável a diferentes dispositivos
+  - Exibição intuitiva de métricas e resultados
 
 ## Pré-requisitos
 
@@ -12,7 +31,7 @@ Esta aplicação é um exemplo simples de um classificador de flores usando o al
 1. **Clone o repositório ou extraia os arquivos do projeto**  
    Certifique-se de que o diretório do projeto contenha, pelo menos:
    - `back.py`
-   - `front.html` (dentro de um diretório `templates`, se o Flask estiver configurado para isso)
+   - `front.html` (dentro do diretório `templates`)
    - `requirements.txt` com as dependências necessárias
 
 2. **Criar o ambiente virtual**
@@ -47,28 +66,37 @@ Após instalar as dependências, inicie o servidor Flask executando:
 python back.py
 ```
 
-O servidor ficará disponível em [http://127.0.0.1:5000](http://127.0.0.1:5000). Abra este endereço em seu navegador para utilizar a aplicação.
+O servidor ficará disponível em [http://127.0.0.1:8080](http://127.0.0.1:8080). Abra este endereço em seu navegador para utilizar a aplicação.
 
 ## Estrutura do Projeto
 
 A estrutura básica do projeto é a seguinte:
 
 ```
-KNN-back-front-sample/
+Classificador-Flores-IA/
 ├── templates/
-│   └── front.html       # Front-end da aplicação
+│   └── front.html       # Interface do usuário (Front-end)
 ├── venv/                # Ambiente virtual (gerado)
-├── back.py              # Back-end da aplicação (Flask)
+├── back.py              # Servidor e lógica de ML (Back-end)
 ├── requirements.txt     # Lista de dependências do projeto
 └── README.md            # Este arquivo
 ```
 
 ## Uso da Aplicação
 
-- **Treino:** Clique no botão "Treino" para treinar o classificador usando o dataset Iris.
-- **Teste:** Clique no botão "Teste" para visualizar as métricas de desempenho do modelo (tanto para o conjunto de treinamento quanto para o teste), além dos gráficos da matriz de confusão e da superfície de decisão.
-- **Teste Novo Valor:** Preencha os campos com as medidas de uma nova amostra e clique em "Enviar Valores" para obter a predição.
+1. **Selecionar o Modelo**: Escolha entre KNN, Árvore de Decisão, Random Forest ou SVM.
+2. **Treinar o Modelo**: Clique em "Treinar Modelo" para iniciar o treinamento com o algoritmo selecionado.
+3. **Testar o Modelo**: Clique em "Testar Modelo" para avaliar o desempenho e visualizar as métricas e gráficos.
+4. **Comparar Modelos**: Clique em "Comparar Modelos" para ver uma tabela comparativa entre os diferentes algoritmos.
+5. **Classificar Nova Flor**: Insira as medidas de uma nova amostra e clique em "Classificar" para obter a predição.
+
+## Extensões e Melhorias Possíveis
+
+- Adição de mais algoritmos de aprendizagem de máquina
+- Implementação de ajuste automático de hiperparâmetros
+- Suporte a outros conjuntos de dados
+- Exportação de modelos treinados
 
 ---
 
-Este projeto serve como exemplo básico para aprendizado e demonstração do uso do Flask e do KNN. Sinta-se à vontade para expandir ou modificar conforme necessário.
+Este projeto foi desenvolvido como atividade para a disciplina de Aprendizagem de Máquina na UFCA.
