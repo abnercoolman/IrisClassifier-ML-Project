@@ -41,7 +41,7 @@ Um modelo inspirado no cérebro humano que consiste em camadas de neurônios art
 
 | Versão Web | Versão Mobile (Responsiva) |
 | --- | --- |
-| ![Versão Web do Sistema](/static/prints-sistema/print-web.png) | ![Versão Mobile do Sistema](/static/prints-sistema/print-mobile.png) |
+| <img src="https://github.com/user-attachments/assets/edca21da-c28e-4923-9b15-7eeb64392e14" height="650"> | <img src="https://github.com/user-attachments/assets/e09a586f-41bb-49d7-88dc-dd2c334aeeb9" height="650"> |
 
 ## Exemplos de Flores Iris
 
