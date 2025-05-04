@@ -37,6 +37,19 @@ Um algoritmo de agrupamento (clustering) não supervisionado que foi adaptado pa
 ### Rede Neural Artificial (RNA)
 Um modelo inspirado no cérebro humano que consiste em camadas de neurônios artificiais interconectados, capaz de aprender padrões complexos nos dados.
 
+## Tamanho dos Modelos
+
+Os modelos utilizados nesta aplicação são relativamente leves e otimizados para o dataset Iris, que é pequeno e de baixa dimensionalidade:
+
+| Modelo | Tamanho aproximado | Características |
+| ------ | ------------------ | --------------- |
+| KNN | Não-paramétrico | Armazena os pontos de treinamento (150 amostras × 4 características) |
+| Árvore de Decisão | ~100-500 parâmetros | Depende da profundidade e complexidade da árvore gerada |
+| K-Means | ~12 parâmetros | 3 centroides × 4 características |
+| RNA (MLP) | ~180 parâmetros | Arquitetura (4 × 10 × 5 × 3) com pesos e bias |
+
+Todos os modelos são adequados para execução em ambiente local, sem necessidade de hardware especializado, tornando a aplicação acessível para fins educacionais e demonstrativos.
+
 ## Prints do Sistema
 
 | Versão Web | Versão Mobile (Responsiva) |
